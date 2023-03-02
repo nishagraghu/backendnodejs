@@ -1,0 +1,176 @@
+var jwt = require('jsonwebtoken');
+var config = require('../config.js');
+const Auth = require("../models/auth.model.js");
+const { sendSms } = require('../service/sms.js');
+let otplist = Array();
+
+
+
+module.exports = function (router) {
+
+    console.log("test1");
+    /**
+ * @swagger
+ * /create:
+ *   post:
+ *     summary: Create a new OTP
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: mobilenumber
+ *         description: The mobile number to send the OTP to
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             mobilenumber:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: The OTP was sent successfully
+ */
+    router.post('/create', function (req, res) {
+        // Generate a random OTP with 6 digits
+
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        const mobile = req.body.mobilenumber;
+
+
+        const latestOtp = otplist.find((obj) => obj.mobilenumber === mobile);
+
+
+        const smsmag = `${otp} is the OTP to login into your account.We don't ask for your OTP/bank info.Don't shate it with anyone`
+
+        sendSms(req.body.mobilenumber, '+12766001912', smsmag).then(result => {
+            const { status, msg } = result;
+            if (status) {
+                otplist.push(
+                    {
+                        mobilenumber: mobile,
+                        otp: otp,
+                        createdAt: new Date()
+                    }
+                );
+                res.json({
+                    mobilenumber: req.body.mobilenumber,
+                    msg: 'otp is sent successfully'
+                });
+            } else {
+                res.json({
+                    mobilenumber: req.body.mobilenumber,
+                    msg: 'error while sending SMS'
+                });
+            }
+        })
+
+
+
+
+
+
+
+    });
+    router.post('/login', function (req, res) {
+        /*
+         * Check if the username and password is correct
+         */
+
+        /**
+   * @swagger
+   * /login:
+   *   post:
+   *     summary: Login with OTP
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: mobilenumber
+   *         description: The mobile number used to create the OTP
+   *         in: body
+   *         required: true
+   *         schema:
+   *           type: object
+   *           properties:
+   *             mobilenumber:
+   *               type: string
+   *             otp:
+   *               type: number
+   *     responses:
+   *       200:
+   *         description: Login successful
+   *         schema:
+   *           type: object
+   *           properties:
+   *             id:
+   *               type: number
+   *             username:
+   *               type: string
+   *             jwt:
+   *               type: string
+   *             refreshToken:
+   *               type: string
+
+   */
+
+        const loginwithOtp = otplist.find((obj) => obj.mobilenumber === req.body.mobilenumber);
+        console.log(loginwithOtp);
+        if ((typeof loginwithOtp != 'undefined') && (loginwithOtp.mobilenumber === req.body.mobilenumber && loginwithOtp.otp === req.body.otp)) {
+            const accessToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber, }, config.JWT_SECRET)
+            const refreshToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber }, config.JWT_SECRET)
+            let test = jwt.verify(refreshToken, config.JWT_SECRET);
+
+            const auth = new Auth({
+                token: refreshToken,
+
+            });
+
+            Auth.create(auth, (err, data) => {
+                if (err)
+                    res.status(500).send({
+                        message:
+                            err.message || "Some error occurred while creating the Tutorial."
+                    });
+                else {
+                    res.json({
+                        id: 1,
+                        username: 'admin',
+                        jwt: accessToken,
+                        refreshToken: refreshToken,
+                    });
+                }
+
+            });
+
+        } else {
+            /*
+             * If the username or password was wrong, return 401 ( Unauthorized )
+             * status code and JSON error message
+             */
+            res.status(401).json({
+                error: {
+
+                    message: 'Wrong username or password!'
+                }
+            });
+        }
+    });
+    router.get('/logout', function (req, res) {
+        const token = req.headers['authorization'].split(" ")[1];
+        Auth.remove(token, (err, user) => {
+            if (err) return res.status(400).send(err);
+            res.json({
+                status: true,
+                msg: 'logged out successfully'
+            });
+        });
+
+
+        // req.user.deleteToken(req.token,(err,user)=>{
+        //     if(err) return res.status(400).send(err);
+        //     res.sendStatus(200);
+        // });
+
+    });
+
+    return router;
+};
