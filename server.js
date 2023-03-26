@@ -23,7 +23,7 @@ app.use('/api', require('./controllers/helloWorld.js')(router));
 /*
  * Add the '/login' route handler
  */
-app.use('/',require('./controllers/user.js')(router));
+app.use('/auth',require('./controllers/user.js')(router));
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -43,6 +43,11 @@ const swaggerOptions = {
   };
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+  app.use((req, res, next) => {
+    res.status(404).send({
+    error:"Sorry, that route doesn't exist ."
+    });
+  });
 
 
 

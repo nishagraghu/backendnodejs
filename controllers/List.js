@@ -3,6 +3,7 @@ const cacheMiddleware = require('../middlewares/cache');
 
 module.exports = function(router) {
   router.get('/brants', cacheMiddleware, async (req, res) => {
+    
     try {
       const data = await List.getAll();
       res.send(data);
@@ -35,7 +36,16 @@ module.exports = function(router) {
     } catch (err) {
       handleError(res, err);
     }
-  });
+  });  
+  router.get('/partsinfo/:id',cacheMiddleware, async (req, res) => {
+    try {
+      const data = await List.getPartinfo(req.params.id);
+      res.send(data);
+    } catch (err) {
+      handleError(res, err);
+    }
+  });  
+  
 
   function handleError(res, err) {
     console.error(err);
