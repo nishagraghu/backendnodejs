@@ -10,6 +10,10 @@ const sequelize = new Sequelize({
 
   const modelDefiners = [
 	 require('./sequelizeModel/PartDetail.model'),
+   require('./sequelizeModel/Yearofmake.model'),
+   require('./sequelizeModel/Brand.model'),
+   require('./sequelizeModel/modelinfo.model'),
+    require('./sequelizeModel/Variant.model'),
 	// require('./models/instrument.model'),
 	// require('./models/orchestra.model'),
 	// Add more models here...
