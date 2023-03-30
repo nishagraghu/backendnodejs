@@ -156,6 +156,33 @@ async function reset() {
 
 
 
+ 
+    await sequelize.models.variant.bulkCreate([
+        {
+            name: '2.3L VTI | PETROL',
+            year_make: 1,
+            created_at: '2022-12-28 03:45:13',
+            updated_at: '2022-12-28 03:45:13'
+        },
+        {
+            name: '2.4L VTI | PETROL',
+            year_make: 1,
+            created_at: '2022-12-30 09:30:16',
+            updated_at: '2022-12-30 09:30:16'
+        },
+        {
+            name: 'BAJAJ',
+            year_make: 2,
+            created_at: '2023-02-11 05:26:40',
+            updated_at: '2023-02-11 05:26:40'
+        },
+        {
+            name: 'TRIUMPH',
+            year_make: 3,
+            created_at: '2023-02-19 10:13:25',
+            updated_at: '2023-02-19 10:13:25'
+        },
+    ]);
     await sequelize.models.modeinfo.bulkCreate([
         {
             name: 'ACCORD',
@@ -209,33 +236,6 @@ async function reset() {
             updated_at: '2023-02-19 10:07:45'
         }
     ]);
-    await sequelize.models.variant.bulkCreate([
-        {
-            name: '2.3L VTI | PETROL',
-            year_make: 1,
-            created_at: '2022-12-28 03:45:13',
-            updated_at: '2022-12-28 03:45:13'
-        },
-        {
-            name: '2.4L VTI | PETROL',
-            year_make: 1,
-            created_at: '2022-12-30 09:30:16',
-            updated_at: '2022-12-30 09:30:16'
-        },
-        {
-            name: 'BAJAJ',
-            year_make: 2,
-            created_at: '2023-02-11 05:26:40',
-            updated_at: '2023-02-11 05:26:40'
-        },
-        {
-            name: 'TRIUMPH',
-            year_make: 3,
-            created_at: '2023-02-19 10:13:25',
-            updated_at: '2023-02-19 10:13:25'
-        },
-    ]);
-
 
 
 

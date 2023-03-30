@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
 	 require('./sequelizeModel/PartDetail.model'),
    require('./sequelizeModel/Yearofmake.model'),
    require('./sequelizeModel/Brand.model'),
-   require('./sequelizeModel/modelinfo.model'),
+   require('./sequelizeModel/modeinfo.model'),
    require('./sequelizeModel/Variant.model'),
 	// require('./models/instrument.model'),
 	// require('./models/orchestra.model'),
