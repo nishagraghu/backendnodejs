@@ -13,7 +13,7 @@ const sequelize = new Sequelize({
    require('./sequelizeModel/Yearofmake.model'),
    require('./sequelizeModel/Brand.model'),
    require('./sequelizeModel/modelinfo.model'),
-    require('./sequelizeModel/Variant.model'),
+   require('./sequelizeModel/Variant.model'),
 	// require('./models/instrument.model'),
 	// require('./models/orchestra.model'),
 	// Add more models here...
