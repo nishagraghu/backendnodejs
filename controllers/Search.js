@@ -4,18 +4,13 @@ const cacheMiddleware = require('../middlewares/cache');
 
 module.exports = function (router) {
 
-    router.get('/partsinfo/:page/:limit?/:id?', cacheMiddleware, async (req, res) => {
+    router.get('/partsinfo/:id?/:page?/:limit?', cacheMiddleware, async (req, res) => {
         try {
-            const whereClause = {};
-            const limit = 10;
-
-            if (req.params.id) {
-                whereClause.variant_id = req.params.id;
-            }
-            if (req.params.limit) {
-                limit = parseInt(req.params.limit);
-            }
-            const offset = (parseInt(req.params.page) - 1) * limit;
+            const { id, limit: reqLimit, page: reqPage } = req.params;
+            const whereClause = id ? { variant_id: id } : {};
+            const limit = reqLimit ? parseInt(reqLimit) : 10;
+            const page = reqPage ? parseInt(reqPage) : 1;
+            const offset = (parseInt(page) - 1) * limit;
             const data = await PartDetail.findAndCountAll({
                 where: whereClause,
                 limit: limit,

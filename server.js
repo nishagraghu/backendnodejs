@@ -19,6 +19,8 @@ app.use('/api', require('./middlewares/auth.js'));
  */
 app.use('/api', require('./controllers/List.js')(router));
 app.use('/api', require('./controllers/helloWorld.js')(router));
+app.use('/api', require('./controllers/Search.js')(router));
+
 
 /*
  * Add the '/login' route handler
