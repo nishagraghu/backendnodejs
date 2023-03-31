@@ -41,8 +41,8 @@ describe('Configuration file', () => {
     });
 
     it('should use hardcoded values for PORT and JWT_SECRET', () => {
-      const prodConfig = require('../config');
-      assert.strictEqual(prodConfig.PORT, '8080');
+      const prodConfig = require('../src/config/config');
+      assert.strictEqual(prodConfig.PORT, 8080);
       assert.strictEqual(prodConfig.JWT_SECRET, 'your jwt secret');
     });
   });

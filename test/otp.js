@@ -1,6 +1,6 @@
 const assert = require('assert');
-const sequelize = require('../models');
-const { insertOTP } = require('../path/to/insertOTP.js');
+const sequelize = require('../src/models');
+const { insertOTP } = require('../src/service/otp');
 
 describe('insertOTP', function() {
   beforeEach(async function() {
@@ -20,5 +20,19 @@ describe('insertOTP', function() {
     // Check that the record has the expected values
     assert.strictEqual(record.mobile, mobile);
     assert.strictEqual(record.otp, otp);
+  });
+  it('should throw an error if the mobile number is invalid', async function() {
+    const mobile = '1234567890';
+    const otp = '12345678';
+    //  should throw an error if the otp is invalid 
+    try {
+      await insertOTP(mobile, otp);
+    }
+    catch (error) {
+      assert.strictEqual(error.message, 'Error while inserting OTP into the database');
+    } 
+    
+    
+
   });
 });
