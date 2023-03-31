@@ -33,17 +33,17 @@ describe('Configuration file', () => {
     });
   });
 
-//   describe('Production environment', () => {
-//     before(() => {
-//       process.env.NODE_ENV = 'production';
-//       delete process.env.PORT;
-//       delete process.env.JWT_SECRET;
-//     });
+  describe('Production environment', () => {
+    before(() => {
+      process.env.NODE_ENV = 'production';
+      delete process.env.PORT;
+      delete process.env.JWT_SECRET;
+    });
 
-//     it('should use hardcoded values for PORT and JWT_SECRET', () => {
-//       const prodConfig = require('../config');
-//       assert.strictEqual(prodConfig.PORT, '8080');
-//       assert.strictEqual(prodConfig.JWT_SECRET, 'your jwt secret');
-//     });
-//   });
+    it('should use hardcoded values for PORT and JWT_SECRET', () => {
+      const prodConfig = require('../config');
+      assert.strictEqual(prodConfig.PORT, '8080');
+      assert.strictEqual(prodConfig.JWT_SECRET, 'your jwt secret');
+    });
+  });
 });

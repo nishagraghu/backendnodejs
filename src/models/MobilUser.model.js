@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: true,
             validate: {
-                len: [4, 4]
+                len: [6, 6]
             }
         },
 
@@ -31,10 +31,7 @@ module.exports = (sequelize) => {
             type: DataTypes.DATE,
             allowNull: true,
         },
-        deleted_at: {
-            type: DataTypes.DATE,
-            allowNull: true,
-        },
+      
     },
         {
             timestamps: false,
@@ -45,6 +42,9 @@ module.exports = (sequelize) => {
 
         });
 }
+
+
+
 
 
 

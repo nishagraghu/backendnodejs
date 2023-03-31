@@ -15,7 +15,7 @@ const sequelize = new Sequelize({
    require('./sequelizeModel/Brand.model'),
    require('./sequelizeModel/modeinfo.model'),
    require('./sequelizeModel/Variant.model'),
-   require('./MobileUser.model'),
+   require('./MobilUser.model'),
 	// require('./models/instrument.model'),
 	// require('./models/orchestra.model'),
 	// Add more models here...
