@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 var config = require('../config/config.js');
 const Auth = require("../models/auth.model.js");
 const { sendSms } = require('../service/sms.js');
-const { insertOTP } = require('../service/otp');
+const { insertOTP ,verifyOTP} = require('../service/otp');
 const sequelize = require('../models');
  
 let otplist = Array();
@@ -47,13 +47,6 @@ module.exports = function (router) {
             });
             return;
         }
-
-
-        //   insert into 
-
-        // const latestOtp = otplist.find((obj) => obj.mobilenumber === mobile);
-
-
         try {
             const otpmsg = `${otp} is the OTP to login into your account.We don't ask for your OTP/bank info.Don't shate it with anyone`;
             const result = await sendSms(mobile, process.env.SENDER_PHONE_NUMBER, otpmsg);
@@ -77,7 +70,7 @@ module.exports = function (router) {
             });
         }
     })
-    router.post('/login', function (req, res) {
+    router.post('/login',async function (req, res) {
         /*
          * Check if the username and password is correct
          */
@@ -118,22 +111,15 @@ module.exports = function (router) {
     
     */
 
-        const loginwithOtp = otplist.find((obj) => obj.mobilenumber == req.body.mobilenumber);
-        console.log('otplist');
-        console.log(otplist);
-        console.log('mobilenumber');
+        // const loginwithOtp = otplist.find((obj) => obj.mobilenumber == req.body.mobilenumber);
+      
 
-        console.log(req.body.mobilenumber);
-
-        console.log(req.body);
-        console.log({ loginwithOtp });
         const { mobilenumber, otp } = req.body;
-        console.log({ mobilenumber, otp });
-        console.log(typeof loginwithOtp);
-        console.log((typeof loginwithOtp != 'undefined') && (loginwithOtp.mobilenumber === req.body.mobilenumber && loginwithOtp.otp === req.body.otp));
-
+        const otpstatus = await verifyOTP(mobilenumber,otp);
+        
+         
         if ((typeof loginwithOtp != 'undefined') && (loginwithOtp.mobilenumber === req.body.mobilenumber && loginwithOtp.otp === req.body.otp)) {
-
+          
             const accessToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber }, config.JWT_SECRET)
             const refreshToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber }, config.JWT_SECRET)
 
