@@ -16,7 +16,7 @@ module.exports = async function (req, res, next) {
 
             const token = req.headers['authorization'].split(" ")[1];
             const decodedToken = jwt.decode(token, { complete: true });
-
+           console.log(decodedToken);
             const creationDate = new Date(decodedToken.payload.iat * 1000);
           
             try {
@@ -32,10 +32,11 @@ module.exports = async function (req, res, next) {
                 });
                }
             } catch (err) {
-            
+              
                 return res.status(401).json({
                     error: {
                         msg: 'Failed to authenticate token!',
+                        
                         
                     }
                 });
@@ -52,6 +53,7 @@ module.exports = async function (req, res, next) {
             return res.status(401).json({
                 error: {
                     msg: 'Failed to authenticate token!',
+                    err
                    
                 }
             });

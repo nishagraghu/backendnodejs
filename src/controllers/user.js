@@ -42,7 +42,7 @@ module.exports = function (router) {
 
 
         const smsmag = `${otp} is the OTP to login into your account.We don't ask for your OTP/bank info.Don't shate it with anyone`
-
+          
            sendSms(req.body.mobilenumber, '+12766001912', smsmag).then(result => {
             const { status, msg } = result;
             if (status) {
@@ -129,16 +129,14 @@ module.exports = function (router) {
        console.log((typeof loginwithOtp != 'undefined') && (loginwithOtp.mobilenumber === req.body.mobilenumber && loginwithOtp.otp === req.body.otp));
 
         if ((typeof loginwithOtp != 'undefined') && (loginwithOtp.mobilenumber === req.body.mobilenumber && loginwithOtp.otp === req.body.otp)) {
-           
-             const accessToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber, }, config.JWT_SECRET)
+             
+             const accessToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber }, config.JWT_SECRET)
             const refreshToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber }, config.JWT_SECRET)
           
             let test = jwt.verify(refreshToken, config.JWT_SECRET);
 
             const auth = new Auth({
                 token: refreshToken,
-                
-
             });
           
             Auth.create(auth, (err, data) => {

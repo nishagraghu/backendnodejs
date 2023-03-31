@@ -22,6 +22,7 @@ Refreshtokens.create = (newRefreshToken, result) => {
 };
 Refreshtokens.findByToken = (id) => {
   return new Promise((resolve, reject) => {
+    
     const query = "SELECT count(created_at) as refreshtokencount FROM refresh_tokens WHERE token = ?";
     sql.query(query, id, (err, res) => {
       if (err) {
