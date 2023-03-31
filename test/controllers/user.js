@@ -1,7 +1,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 var request = require('supertest');
-var app = require('../../server.js');
+var app = require('../../index.js');
 
 describe('POST /login', function(){
     it('it responds with 401 status code if bad username or password', function(done) {

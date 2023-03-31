@@ -1,5 +1,5 @@
-var app = require('./server.js');
-var config = require('./config.js');
+var app = require('./src/routes/index');
+var config = require('./src/config/config.js');
 
 /*
  * Start server

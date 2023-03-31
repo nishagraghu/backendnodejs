@@ -1,5 +1,5 @@
 var jwt = require('jsonwebtoken');
-var config = require('../config.js');
+var config = require('../config/config.js');
 const Auth = require("../models/auth.model.js");
 const { sendSms } = require('../service/sms.js');
 let otplist = Array();

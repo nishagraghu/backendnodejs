@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize');
+// const dbConfig = require("../src/config/db.config.js");
 const dbConfig = require("../config/db.config.js");
 const sequelize = new Sequelize({
     dialect: 'mariadb',

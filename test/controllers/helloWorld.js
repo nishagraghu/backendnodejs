@@ -1,7 +1,7 @@
 var request = require('supertest');
-var app = require('../../server.js');
+var app = require('../../index.js');
 var jwt = require('jsonwebtoken');
-var config = require('../../config.js');
+var config = require('../../src/config/config.js');
 
 describe('GET /hello-world', function(){
     it('it responds with 401 status code if no authorization header', function(done) {

@@ -33,7 +33,7 @@ module.exports = function (router) {
             .optional()
             .isInt({ min: 1 })
             .withMessage('Invalid page number'),
-        check('limit')
+        check('limit')  
             .optional()
             .isInt({ min: 1, max: 100 })
             .withMessage('Limit must be between 1 and 100'),
