@@ -37,14 +37,14 @@ module.exports = function(router) {
       handleError(res, err);
     }
   });  
-  router.get('/partsinfo/:id',cacheMiddleware, async (req, res) => {
-    try {
-      const data = await List.getPartinfo(req.params.id);
-      res.send(data);
-    } catch (err) {
-      handleError(res, err);
-    }
-  });  
+  // router.get('/partsinfo/:id',cacheMiddleware, async (req, res) => {
+  //   try {
+  //     const data = await List.getPartinfo(req.params.id);
+  //     res.send(data);
+  //   } catch (err) {
+  //     handleError(res, err);
+  //   }
+  // });  
   
 
   function handleError(res, err) {
