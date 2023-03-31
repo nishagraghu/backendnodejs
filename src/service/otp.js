@@ -45,10 +45,12 @@ async function verifyOTP(mobile, otp){
     try{
         const result = await sequelize.models.mobil_user.findOne({ where: { mobile: mobile } });
         if(result){
+            const updated_at = result.updated_at;
             if(result.otp == otp){
                 return {
                     status: true,
-                    msg: 'OTP verified successfully'
+                    msg: 'OTP verified successfully',
+                    updated_at
                 }
             }else{
                 return {
@@ -66,12 +68,39 @@ async function verifyOTP(mobile, otp){
         return {
             status: false,
             msg: 'Error while verifying OTP',
-            error
+            
         }
     }
 
 } 
+async function deactivateOTP(mobile){
+    try{
+        const result = await sequelize.models.mobil_user.findOne({ where: { mobile: mobile } });
+        if(result){
+            
+            result.updated_at = null;
+            await result.save();
+            return {
+                status: true,
+                msg: 'logout  successfully'
+            }
+        }else{
+            return {
+                status: false,
+                msg: 'Mobile number not found'
+            }
+        }
+    }catch(error){
+        return {
+            status: false,
+            msg: 'Error while deactivating OTP',
+            error
+        }
+    }
 
-module.exports = { insertOTP ,verifyOTP};
+}
+
+
+module.exports = { insertOTP ,verifyOTP,deactivateOTP};
 
 // module.exports = insertOTP;

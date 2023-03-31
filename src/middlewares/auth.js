@@ -1,7 +1,7 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config/config.js');
 const auth = require('../models/auth.model');
-
+const sequelize =  require('../models');
 module.exports = async function (req, res, next) {
     /*
      * Check if authorization header is set
@@ -20,22 +20,36 @@ module.exports = async function (req, res, next) {
             const creationDate = new Date(decodedToken.payload.iat * 1000);
           
             try {
-                const data = await auth.findByToken(token);
-                const { refreshtokencount } = data[0];
-                console.log(refreshtokencount);
-               if(refreshtokencount==0){
-                return res.status(401).json({
-                    error: {
-                        msg: 'authenticate token is invalid',
+                const result = await sequelize.models.mobil_user.findOne({ where: { mobile: decodedToken.payload.mobilenumber } });
+                const timestamp1 = new Date(result.updated_at).getTime();
+                const timestamp2 = new Date(decodedToken.payload.updated_at).getTime();
+                if (timestamp1 !== timestamp2) {
+                   
+                    return res.status(422).json({
+                      error: {
+                        msg: 'invalid token',
+                      }
+                    });
+                  }
+                  
+            //     const data = await auth.findByToken(token);
+            //     const { refreshtokencount } = data[0];
+            //     console.log(refreshtokencount);
+            //    if(refreshtokencount==0){
+            //     return res.status(401).json({
+            //         error: {
+            //             msg: 'authenticate token is invalid',
                         
-                    }
-                });
-               }
+            //         }
+            //     });
+            //    }
+
             } catch (err) {
               
                 return res.status(401).json({
                     error: {
                         msg: 'Failed to authenticate token!',
+                        err
                         
                         
                     }

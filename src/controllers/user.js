@@ -2,9 +2,9 @@ var jwt = require('jsonwebtoken');
 var config = require('../config/config.js');
 const Auth = require("../models/auth.model.js");
 const { sendSms } = require('../service/sms.js');
-const { insertOTP ,verifyOTP} = require('../service/otp');
+const { insertOTP, verifyOTP, deactivateOTP } = require('../service/otp');
 const sequelize = require('../models');
- 
+
 let otplist = Array();
 
 
@@ -70,7 +70,7 @@ module.exports = function (router) {
             });
         }
     })
-    router.post('/login',async function (req, res) {
+    router.post('/login', async function (req, res) {
         /*
          * Check if the username and password is correct
          */
@@ -112,46 +112,51 @@ module.exports = function (router) {
     */
 
         // const loginwithOtp = otplist.find((obj) => obj.mobilenumber == req.body.mobilenumber);
-      
+
 
         const { mobilenumber, otp } = req.body;
-        const otpstatus = await verifyOTP(mobilenumber,otp);
-        
-         
-        if ((typeof loginwithOtp != 'undefined') && (loginwithOtp.mobilenumber === req.body.mobilenumber && loginwithOtp.otp === req.body.otp)) {
-          
-            const accessToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber }, config.JWT_SECRET)
-            const refreshToken = jwt.sign({ mobilenumber: loginwithOtp.mobilenumber }, config.JWT_SECRET)
+        const { status, msg,updated_at } = await verifyOTP(mobilenumber, otp);
 
-            let test = jwt.verify(refreshToken, config.JWT_SECRET);
 
-            const auth = new Auth({
-                token: refreshToken,
-            });
+        if (status) {
 
-            Auth.create(auth, (err, data) => {
+            const accessToken = jwt.sign({ mobilenumber ,updated_at }, config.JWT_SECRET)
+            res.json({
+                jwt: accessToken,
+                mobilenumber,
+                msg
 
-                if (err) {
-                    res.status(500).send({
-                        message:
-                            err.message || "Some error occurred while creating the Tutorial."
-                    });
-
-                }
-
-                else {
-
-                    res.json({
-                        // id: 1,
-                        // username: 'admin',
-                        jwt: accessToken,
-
-                        refreshToken: refreshToken,
-                        mobilenumber
-                    });
-                }
 
             });
+
+            let test = jwt.verify(accessToken, config.JWT_SECRET);
+
+            // const auth = new Auth({
+            //     token: accessToken,
+            // });
+
+            // Auth.create(auth, (err, data) => {
+
+            //     if (err) {
+            //         res.status(500).send({
+            //             message:
+            //                 err.message || "Some error occurred while creating the Tutorial."
+            //         });
+
+            //     }
+
+            //     else {
+
+            //         res.json({
+            //             // id: 1,
+            //             // username: 'admin',
+            //             jwt: accessToken,
+            //             mobilenumber,
+            //             accessToken
+            //         });
+            //     }
+
+            // });
 
         } else {
             /*
@@ -160,21 +165,30 @@ module.exports = function (router) {
              */
             res.status(401).json({
                 error: {
+                    msg
 
-                    message: 'error!'
                 }
             });
         }
     });
-    router.get('/logout', function (req, res) {
+    router.get('/logout', async function (req, res) {
         const token = req.headers['authorization'].split(" ")[1];
-        Auth.remove(token, (err, user) => {
-            if (err) return res.status(400).send(err);
-            res.json({
-                status: true,
-                msg: 'logged out successfully'
-            });
-        });
+        const decodedToken = jwt.decode(token, { complete: true });
+        const mobilenumber = decodedToken.payload.mobilenumber;
+        const { status, msg } = await deactivateOTP(mobilenumber);
+        if(status){
+            res.json({ status, msg });
+        }else{
+            res.status(400).send(msg)
+        }
+      
+        // Auth.remove(token, (err, user) => {
+        //     if (err) return res.status(400).send(err);
+        //     res.json({
+        //         status: true,
+        //         msg: 'logged out successfully'
+        //     });
+        // });
 
 
         // req.user.deleteToken(req.token,(err,user)=>{
