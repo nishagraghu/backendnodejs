@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken');
 var config = require('../config/config.js');
-const Auth = require("../models/auth.model.js");
+// const Auth = require("../models/auth.model.js");
 const { sendSms } = require('../service/sms.js');
 const { insertOTP, verifyOTP, deactivateOTP } = require('../service/otp');
 const sequelize = require('../models');

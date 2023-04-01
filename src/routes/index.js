@@ -20,7 +20,7 @@ app.use('/api', require('../middlewares/auth'));
  * So now it is available on /api/hello-world
  */
 app.use('/api', require('../controllers/List.js')(router));
-app.use('/api', require('../controllers/helloWorld.js')(router));
+// app.use('/api', require('../controllers/helloWorld.js')(router));
 app.use('/api', require('../controllers/Search.js')(router));
 
 

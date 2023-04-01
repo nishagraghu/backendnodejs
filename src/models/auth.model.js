@@ -1,39 +1,39 @@
-const sql = require("./db.js");
+// const sql = require("./db.js");
 
-// constructor
-const Refreshtokens  = function(refreshtoken) {
-  this.token  = refreshtoken.token ;
+// // constructor
+// const Refreshtokens  = function(refreshtoken) {
+//   this.token  = refreshtoken.token ;
  
-};
+// };
 
-Refreshtokens.create = (newRefreshToken, result) => {
-    const now = new Date();
-    newRefreshToken.created_at = now;
-  sql.query("INSERT INTO refresh_tokens SET ?", newRefreshToken, (err, res) => {
-    if (err) {
+// Refreshtokens.create = (newRefreshToken, result) => {
+//     const now = new Date();
+//     newRefreshToken.created_at = now;
+//   sql.query("INSERT INTO refresh_tokens SET ?", newRefreshToken, (err, res) => {
+//     if (err) {
       
-      result(err, null);
-      return;
-    }
+//       result(err, null);
+//       return;
+//     }
 
-    // console.log("created tutorial: ", { id: res.insertId, ...newTutorial });
-    result(null, { id: res.insertId });
-  });
-};
-Refreshtokens.findByToken = (id) => {
-  return new Promise((resolve, reject) => {
+//     // console.log("created tutorial: ", { id: res.insertId, ...newTutorial });
+//     result(null, { id: res.insertId });
+//   });
+// };
+// Refreshtokens.findByToken = (id) => {
+//   return new Promise((resolve, reject) => {
     
-    const query = "SELECT count(created_at) as refreshtokencount FROM refresh_tokens WHERE token = ?";
-    sql.query(query, id, (err, res) => {
-      if (err) {
-        reject(err);
-      } else {
+//     const query = "SELECT count(created_at) as refreshtokencount FROM refresh_tokens WHERE token = ?";
+//     sql.query(query, id, (err, res) => {
+//       if (err) {
+//         reject(err);
+//       } else {
        
-        resolve(res);
-      }
-    });
-  });
-};
+//         resolve(res);
+//       }
+//     });
+//   });
+// };
 // Refreshtokens.findByToken = (token, result) => {
 //   sql.query(`SELECT * FROM refresh_tokens WHERE token = "${token}"`, (err, res) => {
 //     if (err) {
@@ -108,25 +108,25 @@ Refreshtokens.findByToken = (id) => {
 //   );
 // };
 
-Refreshtokens.remove = (token,result) => {
-  console.log(token);
-  sql.query("DELETE FROM refresh_tokens WHERE token  = ?",token, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+// Refreshtokens.remove = (token,result) => {
+//   console.log(token);
+//   sql.query("DELETE FROM refresh_tokens WHERE token  = ?",token, (err, res) => {
+//     if (err) {
+//       console.log("error: ", err);
+//       result(null, err);
+//       return;
+//     }
 
-    if (res.affectedRows == 0) {
-      // not found Refreshtokens with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
+//     if (res.affectedRows == 0) {
+//       // not found Refreshtokens with the id
+//       result({ kind: "not_found" }, null);
+//       return;
+//     }
 
-    console.log("deleted tutorial with id: ", id);
-    result(null, res);
-  });
-};
+//     console.log("deleted tutorial with id: ", id);
+//     result(null, res);
+//   });
+// };
 
 // Refreshtokens.removeAll = result => {
 //   sql.query("DELETE FROM Refreshtokenss", (err, res) => {
@@ -141,4 +141,4 @@ Refreshtokens.remove = (token,result) => {
 //   });
 // };
 
-module.exports = Refreshtokens;
+// module.exports = Refreshtokens;

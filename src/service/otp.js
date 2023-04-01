@@ -2,12 +2,6 @@ const sequelize = require('../models');
 
 
 async function insertOTP(mobile, otp) {
-    try {
-        await sequelize.models.mobil_user.sync({ force: false });
-        console.log('Table created successfully');
-    } catch (error) {
-        console.log('Error creating table', error);
-    }
     try{
 
     const [result, created] = await sequelize.models.mobil_user.findOrCreate({
