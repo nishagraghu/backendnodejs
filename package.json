@@ -8,6 +8,7 @@
         "@sequelize/core": "^7.0.0-alpha.23",
         "body-parser": "^1.16.1",
         "chai": "^3.5.0",
+        "chai-as-promised": "^7.1.1",
         "dotenv": "^16.0.3",
         "express": "^4.14.1",
         "express-validator": "^6.15.0",
@@ -25,6 +26,10 @@
     },
     "scripts": {
         "start": "nodemon index.js",
-        "test": "mocha --recursive"
+        "test": "mocha  --exit --recursive ./test",
+        "coverage": "nyc npm run test"
+    },
+    "devDependencies": {
+        "nyc": "^15.1.0"
     }
 }
