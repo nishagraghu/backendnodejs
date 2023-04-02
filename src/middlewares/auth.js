@@ -10,10 +10,14 @@ module.exports = async function (req, res, next) {
                 const result = await sequelize.models.mobil_user.findOne({ where: { mobile: decodedToken.payload.mobilenumber } });
                 const timestamp1 = new Date(result.updated_at).getTime();
                 const timestamp2 = new Date(decodedToken.payload.updated_at).getTime();
+                const t= decodedToken.payload.updated_at;
                 if (timestamp1 !== timestamp2) {
                     return res.status(422).json({
                         error: {
                             msg: 'invalid token',
+                            t
+                           
+
                         }
                     });
                 }

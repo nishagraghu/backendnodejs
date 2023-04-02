@@ -11,7 +11,7 @@ describe('deactivateOTP', () => {
   
   it('should return status true sendSms', async () => {
    
-    const result = await sendSms('1234567890', '654321', 'test');
+    const result = await sendSms('1234567891', '654321', 'test');
     expect(result).to.deep.equal({
       status: true,
       msg: ''

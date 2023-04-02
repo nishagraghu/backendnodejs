@@ -5,7 +5,8 @@ const sequelize = require('../../models');
 async function reset() {
     console.log('Will rewrite  example database, adding some dummy data.');
 
-    await sequelize.sync({ force: true });
+    await sequelize.models.partdetail.sync({ force: true });
+    await sequelize.models.partdetail.destroy({ truncate: true });
     await sequelize.models.partdetail.create({
         partnumber: 'petrol',
         partname: 'PULSAR PETROL TANK',
@@ -26,6 +27,7 @@ async function reset() {
         created_at: '2023-02-19 09:53:27',
         updated_at: '2023-02-19 09:53:27'
     });
+    
     await sequelize.models.yearofmake.bulkCreate([
         {
             year: '2001-2003/ACCORD',
@@ -46,6 +48,7 @@ async function reset() {
             updated_at: '2023-02-19 10:17:51'
         }
     ]);
+
     await sequelize.models.brand.bulkCreate([
         {
             name: 'MARUTI SUZUKI',
@@ -153,10 +156,7 @@ async function reset() {
             updated_at: '2023-02-19 10:06:47'
         }]);
 
-
-
-
- 
+   
     await sequelize.models.variant.bulkCreate([
         {
             name: '2.3L VTI | PETROL',
@@ -183,6 +183,8 @@ async function reset() {
             updated_at: '2023-02-19 10:13:25'
         },
     ]);
+    await sequelize.models.modeinfo.sync({ force: true });
+
     await sequelize.models.modeinfo.bulkCreate([
         {
             name: 'ACCORD',
@@ -236,7 +238,20 @@ async function reset() {
             updated_at: '2023-02-19 10:07:45'
         }
     ]);
+    // sequelize.models.mobil_user
+     await sequelize.models.mobil_user.drop();
+     await sequelize.models.mobil_user.sync({ force: true });
 
+    await sequelize.models.mobil_user.bulkCreate([
+        {
+            name: 'Rahul',
+            mobile: '1234567890',
+            otp: '123456',
+            created_at: new Date('2023-04-02T03:45:50.000Z'),    
+            updated_at: new Date('2023-04-02T03:45:50.000Z')
+        }
+    ]);
+   
 
 
 

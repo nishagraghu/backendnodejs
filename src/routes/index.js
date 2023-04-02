@@ -13,6 +13,7 @@ app.use(bodyParser.json());
  * Add middleware. Because we defined the first parameter ( '/api' ), it will run
  * only for urls that starts with '/api/*'
  */
+const errorHandler = require('../middlewares/errorHandler');
 
 app.use('/api', require('../middlewares/auth'));
 /*
@@ -24,11 +25,12 @@ app.use('/api', require('../controllers/List.js')(router));
 app.use('/api', require('../controllers/Search.js')(router));
 
 
+
 /*
  * Add the '/login' route handler
  */
 app.use('/auth', require('../controllers/user.js')(router));
-  
+app.use(errorHandler);  
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))

@@ -41,7 +41,14 @@ module.exports = (sequelize) => {
             allowNull: true,
           },
 
-	});
+	},{
+    timestamps: false,
+    paranoid: true,
+    underscored: true,
+    freezeTableName: true,
+    tableName: 'partdetails',
+
+});
 };
 
 

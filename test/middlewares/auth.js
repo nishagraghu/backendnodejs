@@ -103,7 +103,7 @@ describe('Auth middleware', () => {
     req.headers.authorization = `Bearer ${token}`;
     await middleware(req, res, next);
     // assert.strictEqual(res.statusCode, 422)
-    assert.strictEqual(res.body.error.msg, 'Failed to authenticate token!');
+    assert.strictEqual(res.body.error.msg, 'invalid token');
   });
 
 //   it('should return an error if the token is not in the database', async () => {

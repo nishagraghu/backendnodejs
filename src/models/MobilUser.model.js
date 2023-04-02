@@ -30,12 +30,12 @@ module.exports = (sequelize) => {
         updated_at: {
             type: DataTypes.DATE,
             allowNull: true,
+           
         },
       
     },
         {
             timestamps: false,
-            paranoid: true,
             underscored: true,
             freezeTableName: true,
             tableName: 'mobil_user',
