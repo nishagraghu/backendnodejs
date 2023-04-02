@@ -10,7 +10,7 @@ async function insertOTP(mobile, otp) {
             otp: otp,
             created_at: new Date(),
             updated_at: new Date(),
-            deleted_at: null
+           
         }
     });
     if (created) {
