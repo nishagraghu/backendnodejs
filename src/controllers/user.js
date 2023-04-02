@@ -38,6 +38,7 @@ module.exports = function (router) {
         // const otp = 123456;
         const mobile = req.body.mobilenumber;
         try {
+            
             await insertOTP(mobile, otp);
         } catch (err) {
             res.json({
