@@ -1,5 +1,8 @@
 const assert = require('assert');
 const config = require('../src/config/db.config');
+const chai = require('chai');
+
+const { expect } = chai;
 
 describe('Configuration file', () => {
   describe('Exported object', () => {
@@ -47,3 +50,27 @@ describe('Configuration file', () => {
     });
   });
 });
+
+describe('config', () => {
+  describe('when NODE_ENV is not set to "test"', () => {
+    before(() => {
+      process.env.NODE_ENV = 'production';
+    });
+
+    it('exports an object with the correct properties', () => {
+      
+      expect(config).to.deep.equal({
+        HOST: 'localhost',
+        USER: 'root',
+        PASSWORD: '',
+        DB: 'backendvahicleparts',
+      });
+    });
+
+    after(() => {
+      process.env.NODE_ENV = undefined;
+    });
+  });
+});
+
+

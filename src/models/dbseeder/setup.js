@@ -3,7 +3,7 @@ const sequelize = require('../../models');
 
 
 async function reset() {
-    console.log('Will rewrite  example database, adding some dummy data.');
+    // console.log('Will rewrite  example database, adding some dummy data.');
 
     await sequelize.models.partdetail.sync({ force: true });
     await sequelize.models.partdetail.destroy({ truncate: true });

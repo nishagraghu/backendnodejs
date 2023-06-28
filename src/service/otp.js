@@ -1,40 +1,44 @@
 const sequelize = require('../models');
-
-
-async function insertOTP(mobile, otp) {
+const  insertOTP = async (mobile, otp) =>{
+   
     try{
-
-    const [result, created] = await sequelize.models.mobil_user.findOrCreate({
-        where: { mobile: mobile },
-        defaults: {
-            otp: otp,
-            created_at: new Date(),
-            updated_at: new Date(),
-           
-        }
-    });
-    if (created) {
-        console.log('Record created successfully');
-      } else {
-        result.otp = otp;
-        result.updated_at = new Date();
        
-        await result.save();
-        console.log('Record updated successfully');
-      }
-        return {
-            status: true,
-            msg: 'OTP inserted successfully'
+        const [result, created] = await sequelize.models.mobil_user.findOrCreate({
+            where: { mobile: mobile },
+            defaults: {
+                otp: otp,
+                created_at: new Date(),
+                updated_at: new Date(),
+               
+            }
+        });
+        if (created) {
+            // console.log('Record created successfully');
+          } else {
+            result.otp = otp;
+            result.updated_at = new Date();
+           
+            await result.save();
+            // console.log('Record updated successfully');
+          }
+            return {
+                status: true,
+                msg: 'OTP inserted successfully'
+            }
+        } catch (error) {
+            return {
+                status: false,
+                msg: 'Error while inserting OTP into the database',
+                
+            }
         }
-    } catch (error) {
-        return {
-            status: false,
-            msg: 'Error while inserting OTP into the database',
-            error
-        }
-    }
+    
 
 }
+
+// async function insertOTP(mobile, otp) {
+ 
+// }
 async function verifyOTP(mobile, otp){
     try{
         const result = await sequelize.models.mobil_user.findOne({ where: { mobile: mobile } });
@@ -88,13 +92,16 @@ async function deactivateOTP(mobile){
         return {
             status: false,
             msg: 'Error while deactivating OTP',
-            error
+            
         }
     }
 
-}
+} 
+const  add =  (a, b) => {
+    return a + b;
+  }
 
 
-module.exports = { insertOTP ,verifyOTP,deactivateOTP};
+module.exports = { insertOTP ,verifyOTP,deactivateOTP, add};
 
 // module.exports = insertOTP;

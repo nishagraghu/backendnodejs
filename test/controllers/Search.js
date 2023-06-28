@@ -15,9 +15,6 @@ const { TEST_TOKEN } = process.env;
 
 describe('Search controller', () => {
 
-
-
-
     it('should return 200 status code if user is authenticated', async () => {
 
         const response = await request(app)

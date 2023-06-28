@@ -20,7 +20,7 @@ module.exports = function (router) {
 
             res.send(data);
         } catch (err) {
-            console.log(err);
+          
         }
     }
     );
@@ -57,7 +57,7 @@ module.exports = function (router) {
             });
             res.send(data);
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     }
     );
